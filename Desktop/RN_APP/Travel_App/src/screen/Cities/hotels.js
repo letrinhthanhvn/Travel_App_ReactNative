@@ -7,16 +7,15 @@ import {
     FlatList,
     TouchableOpacity,
     Text,
-    Image,
-    Platform
+    Image
 } from 'react-native';
 
+import Icon from 'react-native-vector-icons/dist/Ionicons'
+import Stars from 'react-native-stars-rating';
 import {
     CachedImage,
     ImageCacheProvider
 } from 'react-native-cached-image';
-import Icon from 'react-native-vector-icons/dist/Ionicons'
-import Stars from 'react-native-stars-rating';
 
 const width = Dimensions.get('window').width
 const color = '#FF9300'
@@ -34,7 +33,7 @@ class Row extends Component {
 
     // const {data} = this.props.data
     // componentDidMount() {
-        
+
     //     this.setState({
     //         data: this.props.data
     //     })
@@ -59,7 +58,7 @@ class Row extends Component {
                 <View style={styles.leftView}>
                     <View style={{ flex: 1 }}>
                         <Text style={{ flex: 1, color: 'black', fontSize: 16 }}>{data.name}</Text>
-                        <Text style={{ flex: 1, color: 'black' }}>{data.country}</Text>
+                        <Text style={{ flex: 1, color: 'black' }}>{data.type}</Text>
                     </View>
 
                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
@@ -88,6 +87,7 @@ class Row extends Component {
                             uri: data.image
                         }}
                         style={{flex: 1}}
+                        
                     />
                 </View>
             </View>
@@ -95,15 +95,45 @@ class Row extends Component {
     }
 }
 
+class RowFirst extends Component {
 
-export default class Restaurant extends Component {
+    render() {
+
+        const { data } = this.props
+        return (
+            <View style={styles.bottomView}>
+                <Image source={data.image} style={{ flex: 1 }} resizeMode='cover' />
+                <View style={styles.viewTextFirst}>
+
+                    <Text style={styles.textDesTravel}>{data.name}</Text>
+                    <Text style={styles.textDes}>{data.type}</Text>
+                </View>
+
+                <View style={{position: 'absolute', bottom: 0, left: 20, right: 0, height: 30}}>
+                    <Stars
+                        isActive={true}
+                        rateMax={5}
+                        isHalfStarEnabled={false}
+                        onStarPress={(rating) => console.log(rating)}
+                        rate={3}
+                        size={10}
+                        style={{ flex: 1 }}
+                    />
+                </View>
+            </View>
+
+        )
+    }
+}
+
+
+export default class Hotels extends Component {
 
     constructor(props) {
         super(props)
 
         this.state = {
             isClick: false,
-            dataImages: []
         }
     }
 
@@ -119,9 +149,11 @@ export default class Restaurant extends Component {
 
         const { data } = this.props
 
+        console.log('data', data)
+
         return (
             <View style={styles.container}>
-                <View style={{ height: Platform.OS === 'ios' ? 88 : 60, width, backgroundColor: color }}>
+                <View style={{ height: 88, width, backgroundColor: color }}>
                     <View style={{ width: width, height: 44, flexDirection: 'row', position: 'absolute', top: 44, alignItems: 'center', backgroundColor: color }}>
                         <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => this.props.navigation.goBack()}>
                             <Icon name='ios-arrow-back' color='white' size={30} style={{ marginLeft: 6, paddingTop: 3 }} />
@@ -129,7 +161,7 @@ export default class Restaurant extends Component {
                             <Text style={{ color: 'white', fontSize: 21, marginLeft: 3 }}>Paris</Text>
                         </TouchableOpacity>
 
-                        <Text style={styles.title}>Restaurant</Text>
+                        <Text style={styles.title}>Hotels</Text>
 
                         <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', position: 'absolute', right: 7 }} onPress={() => this.click(this.state.isClick)}>
                             <Icon name={this.state.isClick ? 'ios-bookmark' : 'ios-bookmark-outline'} color='white' size={30} style={{ marginRight: 4, paddingTop: 3 }} />
@@ -143,10 +175,13 @@ export default class Restaurant extends Component {
                 <View style={styles.flatListView}>
                     <FlatList
                         data={data}
-                        renderItem={({ item }) =>
-                            <Row {...this.props} data={item} />
+                        renderItem={({ item, index }) => {
+                            if (index != 0) { return <Row {...this.props} data={item} /> }
+                            else {
+                                return <RowFirst {...this.props} data={item} />
+                            }
                         }
-
+                        }
                         keyExtractor={(item) => String(item.name)}
                     />
                 </View>
@@ -162,7 +197,6 @@ const styles = StyleSheet.create({
     mapView: {
         height: 220,
         width,
-        // backgroundColor: 'green'
     },
 
     flatListView: {
@@ -171,7 +205,6 @@ const styles = StyleSheet.create({
         right: 16,
         left: 16,
         bottom: 0,
-        // backgroundColor: 'red'
     },
 
     title: {
@@ -184,7 +217,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: 'white'
     },
-
 
     // Row
 
@@ -205,5 +237,36 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         flex: 1,
         paddingTop: 2
-    }
+    },
+
+    bottomView: {
+        height: 236,
+        marginTop: 16,
+        marginRight: 8,
+        marginLeft: 8
+    },
+
+    viewTextFirst: {
+        height: 80,
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        left: 0,
+        paddingLeft: 20
+    },
+
+    textDesTravel: {
+        flex: 1,
+        paddingTop: 20,
+        fontSize: 17,
+        color: '#CCCCCC'
+    },
+
+    textDes: {
+        flex: 1,
+        fontSize: 25,
+        color: 'white',
+        fontWeight: 'bold'
+    },
+
 })

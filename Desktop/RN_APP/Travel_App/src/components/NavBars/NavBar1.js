@@ -4,7 +4,8 @@ import {
     View,
     StyleSheet,
     TouchableOpacity,
-    Text
+    Text,
+    Platform
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/dist/Ionicons'
@@ -29,24 +30,25 @@ export default class NavBar1 extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        height: 140,
+
+        height: Platform.OS === 'ios' ? 140 : 80,
         backgroundColor: '#FF9300'
     },
 
     iconView: {
         position: 'absolute',
-        top: 44,
+        top: Platform.OS === 'ios' ? 44 : 20,
         right: 0,
         width: 30,
-        height: 44,
+        height: Platform.OS === 'ios' ? 44 : 20,
     },
 
     titleView: {
         position: 'absolute',
-        top: 88,
+        top: Platform.OS === 'ios' ? 88 : 40,
         left: 0,
         right: 0,
-        height: 52,
+        height: Platform.OS === 'ios' ? 52 : 40,
     },
 
     textStyle: {

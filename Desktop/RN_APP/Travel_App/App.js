@@ -22,6 +22,7 @@ import Cities from './src/screen/Cities/cities'
 import Guide from './src/screen/Guide'
 import City from './src/screen/Cities/city'
 import Restaurant from './src/screen/Cities/restaurant'
+import Hotels from './src/screen/Cities/hotels'
 
 console.ignoredYellowBox = ['Remote debugger', 'Warning: isMounted(...) is deprecated', 'Warning: `flexWrap: `wrap`` is not supported with the `VirtualizedList` components.Consider using `numColumns` with `FlatList` instead.']
 
@@ -46,7 +47,7 @@ export default class App extends Component {
       <View style={{ flex: 1 }}>
         <StatusBar barStyle="light-content" />
         <Router>
-          <Tabs tabs={true} key="root" hideNavBar={true} showLabel={false}>
+          <Tabs tabs={true} key="root" hideNavBar={true} showLabel={false} tabBarPosition='bottom'>
             <Scene key="tab1" hideNavBar={true} title="Guides" icon={TabIcon}>
               <Scene key="guides" component={Guides} title="Guides" />
               <Scene key="guide" component={Guide} title="Guide" />
@@ -56,6 +57,8 @@ export default class App extends Component {
               <Scene key="cities" component={Cities} title="Cities" />
               <Scene key="city" component={City} title="City" />
               <Scene key="restaurant" component={Restaurant} title="Restaurant" />
+              <Scene key="hotels" component={Hotels} title="Restaurant" />
+
             </Scene>
           </Tabs>
         </Router>

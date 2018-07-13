@@ -8,7 +8,8 @@ import {
     FlatList,
     Image,
     ScrollView,
-    TouchableOpacity
+    TouchableOpacity,
+    Platform
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux'
@@ -26,18 +27,23 @@ import HeaderCity from '../../components/headers/headerCity'
 
 export default class City extends Component {
 
-    click = () => {
+    clickRestaurant = () => {
         Actions.restaurant({
-        
+        data: this.props.dataPerRow.restaurant
         })
     }
 
+    clickHotels = () => {
+        Actions.hotels({
+            data: this.props.dataPerRow.hotels
+        })
+    }
     render() {
         const { dataPerRow } = this.props
         return (
             <ScrollView contentContainerStyle={{}}>
                 <View style={{ flex: 1 }}>
-                    <View style={{ height: 223, width }}>
+                    <View style={{ height: Platform.OS === 'ios' ? 223 : 120, width,  }}>
                         <HeaderCity {...this.props} />
                     </View>
 
@@ -45,13 +51,14 @@ export default class City extends Component {
                         <View style={{ margin: 16, height: 44, justifyContent: 'space-between', flexDirection: 'row' }}>
                             <TouchableOpacity
                                 style={styles.btnRestaurant}
-                                onPress={this.click}
+                                onPress={this.clickRestaurant}
                             >
                                 <Icon name="restaurant" size={28} color='white' />
                             </TouchableOpacity>
 
                             <TouchableOpacity
                                 style={styles.btnHotel}
+                                onPress={this.clickHotels}
                             >
                                 <Icon name="hotel" size={30} color='white' />
                             </TouchableOpacity>
